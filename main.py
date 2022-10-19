@@ -42,7 +42,7 @@ def out_info(category: str) -> list:
     return res
 
 
-def get_transaction(category: str, list_value: list | dict, full_view=False) -> list:
+def get_transaction(category: str, list_value: list | dict) -> list:
     res = []
     for i in df['transactions']:
         if df['transactions'][i][category] in list_value or df['transactions'][i][category] == list_value:
@@ -68,16 +68,15 @@ def get_short_time_city_change(values: list):
     res, first = [], values[0]
     for i in values[1:]:  # values need be sorted?
         if first['card'] == i['card'] and first['city'] != i['city'] \
-                and datetime.strptime(i['date'], '%Y-%m-%dT%H:%M:%S') - datetime.strptime(first['date'],
-                                                                                          '%Y-%m-%dT%H:%M:%S') < timedelta(
-            minutes=60):
+                and datetime.strptime(i['date'], '%Y-%m-%dT%H:%M:%S')\
+                - datetime.strptime(first['date'], '%Y-%m-%dT%H:%M:%S') < timedelta(minutes=60):
             res.append(first)
             res.append(i)
         first = i
     return res
 
 
-def get_value_of_transaction(category: str, list_value: list | dict, full_view=False) -> list:
+def get_value_of_transaction(category: str, list_value: list | dict) -> list:
     res = []
     for i in df['transactions']:
         if df['transactions'][i][category] in list_value:
@@ -126,4 +125,3 @@ print(get_value_of_transaction_dict(get_short_time_city_change(get_value_transac
 # multiaccaunt
 print('multiaccaunt')
 print(get_value_of_transaction('passport', count_multi_pass()))
-
